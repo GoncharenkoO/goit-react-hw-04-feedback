@@ -1,0 +1,14 @@
+.list {
+  margin-top: 10px;
+  text-align: left;
+  margin: 0 auto;
+  width: 250px;
+  text-decoration: none;
+}
+
+.item {
+  color: #000;
+  font-size: 18px;
+  font-weight: 500;
+  list-style: none;
+}
