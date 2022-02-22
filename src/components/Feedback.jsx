@@ -4,34 +4,39 @@ import FeedbackOptions from './FeedbackOptions';
 import Section from './shared/Section';
 import Notification from './shared/Notification';
 
-const Feedback = () => {
-  const [good, setGood] = useState(0);
-  const [neutral, setNeutral] = useState(0);
-  const [bad, setBad] = useState(0);
+const initalState = {
+  good: 0,
+  neutral: 0,
+  bad: 0,
+};
 
-  const addFeedback = option => {
-    switch (option) {
-      case 'good':
-        setGood(prevGood => prevGood + 1);
-        break;
-      case 'neutral':
-        setNeutral(prevNeutral => prevNeutral + 1);
-        break;
-      case 'bad':
-        setBad(prevBad => prevBad + 1);
-        break;
-      default:
-        return;
-    }
+const Feedback = () => {
+  const [state, setState] = useState({ ...initalState });
+  const addFeedback = property => {
+    setState(prevState => {
+      const value = prevState[property];
+      return {
+        ...prevState,
+        [property]: value + 1,
+      };
+    });
   };
 
   const countTotalFeedback = () => {
-    return good + neutral + bad;
+    const value = state.good + state.neutral + state.bad;
+    return value;
   };
 
   const countPositiveFeedbackPercentage = () => {
-    return Math.round((good / countTotalFeedback()) * 100) || 0;
+    const persentage =
+      Math.round((state.good / countTotalFeedback()) * 100) || 0;
+    if (persentage === 0) {
+      return 0;
+    }
+    return persentage;
   };
+
+  const { good, neutral, bad } = state;
 
   return (
     <div>
