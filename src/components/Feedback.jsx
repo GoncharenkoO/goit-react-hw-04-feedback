@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import Statistics from './Statistics';
 import FeedbackOptions from './FeedbackOptions';
 import Section from './shared/Section';
@@ -10,9 +10,11 @@ const initalState = {
   bad: 0,
 };
 
+const options = ['good', 'neutral', 'bad'];
+
 const Feedback = () => {
   const [state, setState] = useState({ ...initalState });
-  const addFeedback = property => {
+  const addFeedback = useCallback(property => {
     setState(prevState => {
       const value = prevState[property];
       return {
@@ -20,7 +22,7 @@ const Feedback = () => {
         [property]: value + 1,
       };
     });
-  };
+  }, []);
 
   const countTotalFeedback = () => {
     const value = state.good + state.neutral + state.bad;
@@ -41,10 +43,7 @@ const Feedback = () => {
   return (
     <div>
       <Section title="Please leave feedback">
-        <FeedbackOptions
-          options={['good', 'neutral', 'bad']}
-          onLeaveFeedback={addFeedback}
-        />
+        <FeedbackOptions options={options} onLeaveFeedback={addFeedback} />
       </Section>
       <Section title="Statistics">
         {countTotalFeedback() > 0 ? (
